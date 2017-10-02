@@ -31,6 +31,7 @@ write.csv(training, file="training.csv")
 write.csv(test, file="test.csv")
 ```
 
+
 ```{r}
 ## Ask how to find the number of USA and non-USA cars in the training dataset. Is it similarto what we did in the first lab?
 ```

@@ -12,8 +12,9 @@ The Cars93 dataset in the MASS package contains data from 93 cars on sale in the
 ```{r}
 library(MASS)
 df <- Cars93
-training <- sample(df$Model, 40)
-test <- sample(df$Model, 53, replace = FALSE)
+training <- sample(1:nrow(df), 40, replace=FALSE)
+index <- as.numeric(row.names(df))
+test <- index[-training]
 ```
 
 ```{r}
@@ -33,7 +34,9 @@ write.csv(test, file="test.csv")
 
 
 ```{r}
-## Ask how to find the number of USA and non-USA cars in the training dataset. Is it similarto what we did in the first lab?
+
+
+## Ask how to find the number of USA and non-USA cars in the training dataset. Is it similar to what we did in the first lab?
 ```
 
 
@@ -89,6 +92,5 @@ dbinom(4, size=1:20, prob=.5)
 
 ```{r}
 pbinom(5, size=1:20, prob=.5)
-#Would I use lower.tail = FALSE here?
 ```
 

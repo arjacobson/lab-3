@@ -12,9 +12,12 @@ The Cars93 dataset in the MASS package contains data from 93 cars on sale in the
 ```{r}
 library(MASS)
 df <- Cars93
-training <- sample(1:nrow(df), 40, replace=FALSE)
-index <- as.numeric(row.names(df))
-test <- index[-training]
+
+set.seed(60)
+x <- sample(1:nrow(df), 40)
+training <- df[x,]
+test <- df[-x, ]
+
 ```
 
 ```{r}
@@ -34,9 +37,8 @@ write.csv(test, file="test.csv")
 
 
 ```{r}
-
-
-## Ask how to find the number of USA and non-USA cars in the training dataset. Is it similar to what we did in the first lab?
+sum(training$Origin=="non-USA")
+sum(training$Origin=="USA")
 ```
 
 
@@ -87,10 +89,14 @@ pbinom(8, size=10, prob=.515)
 If cars arrive randomly at a traffic light at the rate of five every ten seconds. What the probability that exactly four cars arrive in the next ten seconds? What’s the probability that more than five cars arrive in the next ten seconds? Plot the density function of 0-20 cars arriving in the next ten seconds.
 
 ```{r}
-dbinom(4, size=1:20, prob=.5)
+dbinom(4, size=10, prob=.5)
 ```
 
 ```{r}
-pbinom(5, size=1:20, prob=.5)
+pbinom(5, size=10, prob=.5)
+```
+
+```{r}
+dbinom(1:20, size=10, prob=.5)
 ```
 

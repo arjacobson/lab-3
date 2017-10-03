@@ -128,22 +128,497 @@ $(document).ready(function () {
 <p>The Cars93 dataset in the MASS package contains data from 93 cars on sale in the USA in 1993. Randomly select 40 cars as the training dataset and the remaining 53 cars as the test dataset.</p>
 <pre class="r"><code>library(MASS)
 df &lt;- Cars93
-training &lt;- sample(1:nrow(df), 40, replace=FALSE)
-index &lt;- as.numeric(row.names(df))
-test &lt;- index[-training]</code></pre>
+
+set.seed(60)
+x &lt;- sample(1:nrow(df), 40)
+training &lt;- df[x,]
+test &lt;- df[-x, ]</code></pre>
 <pre class="r"><code>training</code></pre>
-<pre><code>##  [1] 17 64 60  4 36 70 80 71 41 79  7 21 89 18 48 91 87 61 56 19 35 81 40
-## [24]  9 39 23 86  1 47 67 14 27 69  5 84 25 90 34 33 82</code></pre>
+<pre><code>##    Manufacturer          Model    Type Min.Price Price Max.Price MPG.city
+## 72     Plymouth          Laser  Sporty      11.4  14.4      17.4       23
+## 33         Ford          Tempo Compact      10.4  11.3      12.2       22
+## 63   Mitsubishi       Diamante Midsize      22.4  26.1      29.9       18
+## 91   Volkswagen        Corrado  Sporty      22.9  23.3      23.7       18
+## 26        Dodge        Caravan     Van      13.6  19.0      24.4       17
+## 9         Buick        Riviera Midsize      26.3  26.3      26.3       19
+## 39          Geo          Metro   Small       6.7   8.4      10.0       46
+## 77      Pontiac     Bonneville   Large      19.4  24.4      29.4       19
+## 4          Audi            100 Midsize      30.8  37.7      44.6       19
+## 68   Oldsmobile        Achieva Compact      13.0  13.5      14.0       24
+## 85       Toyota         Celica  Sporty      14.2  18.4      22.6       25
+## 22     Chrysler       Imperial   Large      29.5  29.5      29.5       20
+## 70   Oldsmobile     Silhouette     Van      19.5  19.5      19.5       18
+## 28        Dodge        Stealth  Sporty      18.5  25.8      33.1       18
+## 50        Lexus          SC300 Midsize      34.7  35.2      35.6       18
+## 55        Mazda            626 Compact      14.3  16.5      18.7       26
+## 15    Chevrolet         Lumina Midsize      13.4  15.9      18.4       21
+## 35         Ford          Probe  Sporty      12.8  14.0      15.2       24
+## 51      Lincoln    Continental Midsize      33.3  34.3      35.3       17
+## 23        Dodge           Colt   Small       7.9   9.2      10.6       29
+## 31         Ford        Festiva   Small       6.9   7.4       7.9       31
+## 32         Ford         Escort   Small       8.4  10.1      11.9       23
+## 36         Ford       Aerostar     Van      14.5  19.9      25.3       15
+## 38         Ford Crown_Victoria   Large      20.1  20.9      21.7       18
+## 64       Nissan         Sentra   Small       8.7  11.8      14.9       29
+## 41        Honda        Prelude  Sporty      17.0  19.8      22.7       24
+## 19    Chevrolet       Corvette  Sporty      34.6  38.0      41.5       17
+## 82       Subaru         Legacy Compact      16.3  19.5      22.7       23
+## 74      Pontiac        Sunbird Compact       9.4  11.1      12.8       23
+## 37         Ford         Taurus Midsize      15.6  20.2      24.8       21
+## 60      Mercury          Capri  Sporty      13.3  14.1      15.0       23
+## 27        Dodge        Dynasty Midsize      14.8  15.6      16.4       21
+## 89   Volkswagen        Eurovan     Van      16.6  19.7      22.7       17
+## 1         Acura        Integra   Small      12.9  15.9      18.8       25
+## 43        Honda         Accord Compact      13.8  17.5      21.2       24
+## 44      Hyundai          Excel   Small       6.8   8.0       9.2       29
+## 66       Nissan          Quest     Van      16.7  19.1      21.5       17
+## 18    Chevrolet        Caprice   Large      18.0  18.8      19.6       17
+## 69   Oldsmobile  Cutlass_Ciera Midsize      14.2  16.3      18.4       23
+## 62   Mitsubishi         Mirage   Small       7.7  10.3      12.9       29
+##    MPG.highway            AirBags DriveTrain Cylinders EngineSize
+## 72          30               None        4WD         4        1.8
+## 33          27               None      Front         4        2.3
+## 63          24        Driver only      Front         6        3.0
+## 91          25               None      Front         6        2.8
+## 26          21        Driver only        4WD         6        3.0
+## 9           27        Driver only      Front         6        3.8
+## 39          50               None      Front         3        1.0
+## 77          28 Driver &amp; Passenger      Front         6        3.8
+## 4           26 Driver &amp; Passenger      Front         6        2.8
+## 68          31               None      Front         4        2.3
+## 85          32        Driver only      Front         4        2.2
+## 22          26        Driver only      Front         6        3.3
+## 70          23               None      Front         6        3.8
+## 28          24        Driver only        4WD         6        3.0
+## 50          23 Driver &amp; Passenger       Rear         6        3.0
+## 55          34        Driver only      Front         4        2.5
+## 15          29               None      Front         4        2.2
+## 35          30        Driver only      Front         4        2.0
+## 51          26 Driver &amp; Passenger      Front         6        3.8
+## 23          33               None      Front         4        1.5
+## 31          33               None      Front         4        1.3
+## 32          30               None      Front         4        1.8
+## 36          20        Driver only        4WD         6        3.0
+## 38          26        Driver only       Rear         8        4.6
+## 64          33        Driver only      Front         4        1.6
+## 41          31 Driver &amp; Passenger      Front         4        2.3
+## 19          25        Driver only       Rear         8        5.7
+## 82          30        Driver only        4WD         4        2.2
+## 74          31               None      Front         4        2.0
+## 37          30        Driver only      Front         6        3.0
+## 60          26        Driver only      Front         4        1.6
+## 27          27        Driver only      Front         4        2.5
+## 89          21               None      Front         5        2.5
+## 1           31               None      Front         4        1.8
+## 43          31 Driver &amp; Passenger      Front         4        2.2
+## 44          33               None      Front         4        1.5
+## 66          23               None      Front         6        3.0
+## 18          26        Driver only       Rear         8        5.0
+## 69          31        Driver only      Front         4        2.2
+## 62          33               None      Front         4        1.5
+##    Horsepower  RPM Rev.per.mile Man.trans.avail Fuel.tank.capacity
+## 72         92 5000         2360             Yes               15.9
+## 33         96 4200         2805             Yes               15.9
+## 63        202 6000         2210              No               19.0
+## 91        178 5800         2385             Yes               18.5
+## 26        142 5000         1970              No               20.0
+## 9         170 4800         1690              No               18.8
+## 39         55 5700         3755             Yes               10.6
+## 77        170 4800         1565              No               18.0
+## 4         172 5500         2535             Yes               21.1
+## 68        155 6000         2380              No               15.2
+## 85        135 5400         2405             Yes               15.9
+## 22        147 4800         1785              No               16.0
+## 70        170 4800         1690              No               20.0
+## 28        300 6000         2120             Yes               19.8
+## 50        225 6000         2510             Yes               20.6
+## 55        164 5600         2505             Yes               15.5
+## 15        110 5200         2595              No               16.5
+## 35        115 5500         2340             Yes               15.5
+## 51        160 4400         1835              No               18.4
+## 23         92 6000         3285             Yes               13.2
+## 31         63 5000         3150             Yes               10.0
+## 32        127 6500         2410             Yes               13.2
+## 36        145 4800         2080             Yes               21.0
+## 38        190 4200         1415              No               20.0
+## 64        110 6000         2435             Yes               13.2
+## 41        160 5800         2855             Yes               15.9
+## 19        300 5000         1450             Yes               20.0
+## 82        130 5600         2330             Yes               15.9
+## 74        110 5200         2665             Yes               15.2
+## 37        140 4800         1885              No               16.0
+## 60        100 5750         2475             Yes               11.1
+## 27        100 4800         2465              No               16.0
+## 89        109 4500         2915             Yes               21.1
+## 1         140 6300         2890             Yes               13.2
+## 43        140 5600         2610             Yes               17.0
+## 44         81 5500         2710             Yes               11.9
+## 66        151 4800         2065              No               20.0
+## 18        170 4200         1350              No               23.0
+## 69        110 5200         2565              No               16.5
+## 62         92 6000         2505             Yes               13.2
+##    Passengers Length Wheelbase Width Turn.circle Rear.seat.room
+## 72          4    173        97    67          39           24.5
+## 33          5    177       100    68          39           27.5
+## 63          5    190       107    70          43           27.5
+## 91          4    159        97    66          36           26.0
+## 26          7    175       112    72          42           26.5
+## 9           5    198       108    73          41           26.5
+## 39          4    151        93    63          34           27.5
+## 77          6    177       111    74          43           30.5
+## 4           6    193       106    70          37           31.0
+## 68          5    188       103    67          39           28.0
+## 85          4    174        99    69          39           23.0
+## 22          6    203       110    69          44           36.0
+## 70          7    194       110    74          44           30.5
+## 28          4    180        97    72          40           20.0
+## 50          4    191       106    71          39           25.0
+## 55          5    184       103    69          40           29.5
+## 15          6    198       108    71          40           28.5
+## 35          4    179       103    70          38           23.0
+## 51          6    205       109    73          42           30.0
+## 23          5    174        98    66          32           26.5
+## 31          4    141        90    63          33           26.0
+## 32          5    171        98    67          36           28.0
+## 36          7    176       119    72          45           30.0
+## 38          6    212       114    78          43           30.0
+## 64          5    170        96    66          33           26.0
+## 41          4    175       100    70          39           23.5
+## 19          2    179        96    74          43             NA
+## 82          5    179       102    67          37           27.0
+## 74          5    181       101    66          39           25.0
+## 37          5    192       106    71          40           27.5
+## 60          4    166        95    65          36           19.0
+## 27          6    192       105    69          42           30.5
+## 89          7    187       115    72          38           34.0
+## 1           5    177       102    68          37           26.5
+## 43          4    185       107    67          41           28.0
+## 44          5    168        94    63          35           26.0
+## 66          7    190       112    74          41           27.0
+## 18          6    214       116    77          42           29.5
+## 69          5    190       105    70          42           28.0
+## 62          5    172        98    67          36           26.0
+##    Luggage.room Weight  Origin                     Make
+## 72            8   2640     USA           Plymouth Laser
+## 33           13   2690     USA               Ford Tempo
+## 63           14   3730 non-USA      Mitsubishi Diamante
+## 91           15   2810 non-USA       Volkswagen Corrado
+## 26           NA   3705     USA            Dodge Caravan
+## 9            14   3495     USA            Buick Riviera
+## 39           10   1695 non-USA                Geo Metro
+## 77           18   3495     USA       Pontiac Bonneville
+## 4            17   3405 non-USA                 Audi 100
+## 68           14   2910     USA       Oldsmobile Achieva
+## 85           13   2950 non-USA            Toyota Celica
+## 22           17   3570     USA        Chrysler Imperial
+## 70           NA   3715     USA    Oldsmobile Silhouette
+## 28           11   3805     USA            Dodge Stealth
+## 50            9   3515 non-USA              Lexus SC300
+## 55           14   2970 non-USA                Mazda 626
+## 15           16   3195     USA         Chevrolet Lumina
+## 35           18   2710     USA               Ford Probe
+## 51           19   3695     USA      Lincoln Continental
+## 23           11   2270     USA               Dodge Colt
+## 31           12   1845     USA             Ford Festiva
+## 32           12   2530     USA              Ford Escort
+## 36           NA   3735     USA            Ford Aerostar
+## 38           21   3950     USA      Ford Crown_Victoria
+## 64           12   2545 non-USA            Nissan Sentra
+## 41            8   2865 non-USA            Honda Prelude
+## 19           NA   3380     USA       Chevrolet Corvette
+## 82           14   3085 non-USA            Subaru Legacy
+## 74           13   2575     USA          Pontiac Sunbird
+## 37           18   3325     USA              Ford Taurus
+## 60            6   2450     USA            Mercury Capri
+## 27           16   3080     USA            Dodge Dynasty
+## 89           NA   3960 non-USA       Volkswagen Eurovan
+## 1            11   2705 non-USA            Acura Integra
+## 43           14   3040 non-USA             Honda Accord
+## 44           11   2345 non-USA            Hyundai Excel
+## 66           NA   4100 non-USA             Nissan Quest
+## 18           20   3910     USA        Chevrolet Caprice
+## 69           16   2890     USA Oldsmobile Cutlass_Ciera
+## 62           11   2295 non-USA        Mitsubishi Mirage</code></pre>
 <pre class="r"><code>test</code></pre>
-<pre><code>##  [1]  2  3  6  8 10 11 12 13 15 16 20 22 24 26 28 29 30 31 32 37 38 42 43
-## [24] 44 45 46 49 50 51 52 53 54 55 57 58 59 62 63 65 66 68 72 73 74 75 76
-## [47] 77 78 83 85 88 92 93</code></pre>
+<pre><code>##     Manufacturer        Model    Type Min.Price Price Max.Price MPG.city
+## 2          Acura       Legend Midsize      29.2  33.9      38.7       18
+## 3           Audi           90 Compact      25.9  29.1      32.3       20
+## 5            BMW         535i Midsize      23.7  30.0      36.2       22
+## 6          Buick      Century Midsize      14.2  15.7      17.3       22
+## 7          Buick      LeSabre   Large      19.9  20.8      21.7       19
+## 8          Buick   Roadmaster   Large      22.6  23.7      24.9       16
+## 10      Cadillac      DeVille   Large      33.0  34.7      36.3       16
+## 11      Cadillac      Seville Midsize      37.5  40.1      42.7       16
+## 12     Chevrolet     Cavalier Compact       8.5  13.4      18.3       25
+## 13     Chevrolet      Corsica Compact      11.4  11.4      11.4       25
+## 14     Chevrolet       Camaro  Sporty      13.4  15.1      16.8       19
+## 16     Chevrolet   Lumina_APV     Van      14.7  16.3      18.0       18
+## 17     Chevrolet        Astro     Van      14.7  16.6      18.6       15
+## 20      Chrylser     Concorde   Large      18.4  18.4      18.4       20
+## 21      Chrysler      LeBaron Compact      14.5  15.8      17.1       23
+## 24         Dodge       Shadow   Small       8.4  11.3      14.2       23
+## 25         Dodge       Spirit Compact      11.9  13.3      14.7       22
+## 29         Eagle       Summit   Small       7.9  12.2      16.5       29
+## 30         Eagle       Vision   Large      17.5  19.3      21.2       20
+## 34          Ford      Mustang  Sporty      10.8  15.9      21.0       22
+## 40           Geo        Storm  Sporty      11.5  12.5      13.5       30
+## 42         Honda        Civic   Small       8.4  12.1      15.8       42
+## 45       Hyundai      Elantra   Small       9.0  10.0      11.0       22
+## 46       Hyundai       Scoupe  Sporty       9.1  10.0      11.0       26
+## 47       Hyundai       Sonata Midsize      12.4  13.9      15.3       20
+## 48      Infiniti          Q45 Midsize      45.4  47.9      50.4       17
+## 49         Lexus        ES300 Midsize      27.5  28.0      28.4       18
+## 52       Lincoln     Town_Car   Large      34.4  36.1      37.8       18
+## 53         Mazda          323   Small       7.4   8.3       9.1       29
+## 54         Mazda      Protege   Small      10.9  11.6      12.3       28
+## 56         Mazda          MPV     Van      16.6  19.1      21.7       18
+## 57         Mazda         RX-7  Sporty      32.5  32.5      32.5       17
+## 58 Mercedes-Benz         190E Compact      29.0  31.9      34.9       20
+## 59 Mercedes-Benz         300E Midsize      43.8  61.9      80.0       19
+## 61       Mercury       Cougar Midsize      14.9  14.9      14.9       19
+## 65        Nissan       Altima Compact      13.0  15.7      18.3       24
+## 67        Nissan       Maxima Midsize      21.0  21.5      22.0       21
+## 71    Oldsmobile Eighty-Eight   Large      19.5  20.7      21.9       19
+## 73       Pontiac       LeMans   Small       8.2   9.0       9.9       31
+## 75       Pontiac     Firebird  Sporty      14.0  17.7      21.4       19
+## 76       Pontiac   Grand_Prix Midsize      15.4  18.5      21.6       19
+## 78          Saab          900 Compact      20.3  28.7      37.1       20
+## 79        Saturn           SL   Small       9.2  11.1      12.9       28
+## 80        Subaru        Justy   Small       7.3   8.4       9.5       33
+## 81        Subaru       Loyale   Small      10.5  10.9      11.3       25
+## 83        Suzuki        Swift   Small       7.3   8.6      10.0       39
+## 84        Toyota       Tercel   Small       7.8   9.8      11.8       32
+## 86        Toyota        Camry Midsize      15.2  18.2      21.2       22
+## 87        Toyota       Previa     Van      18.9  22.7      26.6       18
+## 88    Volkswagen          Fox   Small       8.7   9.1       9.5       25
+## 90    Volkswagen       Passat Compact      17.6  20.0      22.4       21
+## 92         Volvo          240 Compact      21.8  22.7      23.5       21
+## 93         Volvo          850 Midsize      24.8  26.7      28.5       20
+##    MPG.highway            AirBags DriveTrain Cylinders EngineSize
+## 2           25 Driver &amp; Passenger      Front         6        3.2
+## 3           26        Driver only      Front         6        2.8
+## 5           30        Driver only       Rear         4        3.5
+## 6           31        Driver only      Front         4        2.2
+## 7           28        Driver only      Front         6        3.8
+## 8           25        Driver only       Rear         6        5.7
+## 10          25        Driver only      Front         8        4.9
+## 11          25 Driver &amp; Passenger      Front         8        4.6
+## 12          36               None      Front         4        2.2
+## 13          34        Driver only      Front         4        2.2
+## 14          28 Driver &amp; Passenger       Rear         6        3.4
+## 16          23               None      Front         6        3.8
+## 17          20               None        4WD         6        4.3
+## 20          28 Driver &amp; Passenger      Front         6        3.3
+## 21          28 Driver &amp; Passenger      Front         4        3.0
+## 24          29        Driver only      Front         4        2.2
+## 25          27        Driver only      Front         4        2.5
+## 29          33               None      Front         4        1.5
+## 30          28 Driver &amp; Passenger      Front         6        3.5
+## 34          29        Driver only       Rear         4        2.3
+## 40          36        Driver only      Front         4        1.6
+## 42          46        Driver only      Front         4        1.5
+## 45          29               None      Front         4        1.8
+## 46          34               None      Front         4        1.5
+## 47          27               None      Front         4        2.0
+## 48          22        Driver only       Rear         8        4.5
+## 49          24        Driver only      Front         6        3.0
+## 52          26 Driver &amp; Passenger       Rear         8        4.6
+## 53          37               None      Front         4        1.6
+## 54          36               None      Front         4        1.8
+## 56          24               None        4WD         6        3.0
+## 57          25        Driver only       Rear    rotary        1.3
+## 58          29        Driver only       Rear         4        2.3
+## 59          25 Driver &amp; Passenger       Rear         6        3.2
+## 61          26               None       Rear         6        3.8
+## 65          30        Driver only      Front         4        2.4
+## 67          26        Driver only      Front         6        3.0
+## 71          28        Driver only      Front         6        3.8
+## 73          41               None      Front         4        1.6
+## 75          28 Driver &amp; Passenger       Rear         6        3.4
+## 76          27               None      Front         6        3.4
+## 78          26        Driver only      Front         4        2.1
+## 79          38        Driver only      Front         4        1.9
+## 80          37               None        4WD         3        1.2
+## 81          30               None        4WD         4        1.8
+## 83          43               None      Front         3        1.3
+## 84          37        Driver only      Front         4        1.5
+## 86          29        Driver only      Front         4        2.2
+## 87          22        Driver only        4WD         4        2.4
+## 88          33               None      Front         4        1.8
+## 90          30               None      Front         4        2.0
+## 92          28        Driver only       Rear         4        2.3
+## 93          28 Driver &amp; Passenger      Front         5        2.4
+##    Horsepower  RPM Rev.per.mile Man.trans.avail Fuel.tank.capacity
+## 2         200 5500         2335             Yes               18.0
+## 3         172 5500         2280             Yes               16.9
+## 5         208 5700         2545             Yes               21.1
+## 6         110 5200         2565              No               16.4
+## 7         170 4800         1570              No               18.0
+## 8         180 4000         1320              No               23.0
+## 10        200 4100         1510              No               18.0
+## 11        295 6000         1985              No               20.0
+## 12        110 5200         2380             Yes               15.2
+## 13        110 5200         2665             Yes               15.6
+## 14        160 4600         1805             Yes               15.5
+## 16        170 4800         1690              No               20.0
+## 17        165 4000         1790              No               27.0
+## 20        153 5300         1990              No               18.0
+## 21        141 5000         2090              No               16.0
+## 24         93 4800         2595             Yes               14.0
+## 25        100 4800         2535             Yes               16.0
+## 29         92 6000         2505             Yes               13.2
+## 30        214 5800         1980              No               18.0
+## 34        105 4600         2285             Yes               15.4
+## 40         90 5400         3250             Yes               12.4
+## 42        102 5900         2650             Yes               11.9
+## 45        124 6000         2745             Yes               13.7
+## 46         92 5550         2540             Yes               11.9
+## 47        128 6000         2335             Yes               17.2
+## 48        278 6000         1955              No               22.5
+## 49        185 5200         2325             Yes               18.5
+## 52        210 4600         1840              No               20.0
+## 53         82 5000         2370             Yes               13.2
+## 54        103 5500         2220             Yes               14.5
+## 56        155 5000         2240              No               19.6
+## 57        255 6500         2325             Yes               20.0
+## 58        130 5100         2425             Yes               14.5
+## 59        217 5500         2220              No               18.5
+## 61        140 3800         1730              No               18.0
+## 65        150 5600         2130             Yes               15.9
+## 67        160 5200         2045              No               18.5
+## 71        170 4800         1570              No               18.0
+## 73         74 5600         3130             Yes               13.2
+## 75        160 4600         1805             Yes               15.5
+## 76        200 5000         1890             Yes               16.5
+## 78        140 6000         2910             Yes               18.0
+## 79         85 5000         2145             Yes               12.8
+## 80         73 5600         2875             Yes                9.2
+## 81         90 5200         3375             Yes               15.9
+## 83         70 6000         3360             Yes               10.6
+## 84         82 5200         3505             Yes               11.9
+## 86        130 5400         2340             Yes               18.5
+## 87        138 5000         2515             Yes               19.8
+## 88         81 5500         2550             Yes               12.4
+## 90        134 5800         2685             Yes               18.5
+## 92        114 5400         2215             Yes               15.8
+## 93        168 6200         2310             Yes               19.3
+##    Passengers Length Wheelbase Width Turn.circle Rear.seat.room
+## 2           5    195       115    71          38           30.0
+## 3           5    180       102    67          37           28.0
+## 5           4    186       109    69          39           27.0
+## 6           6    189       105    69          41           28.0
+## 7           6    200       111    74          42           30.5
+## 8           6    216       116    78          45           30.5
+## 10          6    206       114    73          43           35.0
+## 11          5    204       111    74          44           31.0
+## 12          5    182       101    66          38           25.0
+## 13          5    184       103    68          39           26.0
+## 14          4    193       101    74          43           25.0
+## 16          7    178       110    74          44           30.5
+## 17          8    194       111    78          42           33.5
+## 20          6    203       113    74          40           31.0
+## 21          6    183       104    68          41           30.5
+## 24          5    172        97    67          38           26.5
+## 25          6    181       104    68          39           30.5
+## 29          5    174        98    66          36           26.5
+## 30          6    202       113    74          40           30.0
+## 34          4    180       101    68          40           24.0
+## 40          4    164        97    67          37           24.5
+## 42          4    173       103    67          36           28.0
+## 45          5    172        98    66          36           28.0
+## 46          4    166        94    64          34           23.5
+## 47          5    184       104    69          41           31.0
+## 48          5    200       113    72          42           29.0
+## 49          5    188       103    70          40           27.5
+## 52          6    219       117    77          45           31.5
+## 53          4    164        97    66          34           27.0
+## 54          5    172        98    66          36           26.5
+## 56          7    190       110    72          39           27.5
+## 57          2    169        96    69          37             NA
+## 58          5    175       105    67          34           26.0
+## 59          5    187       110    69          37           27.0
+## 61          5    199       113    73          38           28.0
+## 65          5    181       103    67          40           28.5
+## 67          5    188       104    69          41           28.5
+## 71          6    201       111    74          42           31.5
+## 73          4    177        99    66          35           25.5
+## 75          4    196       101    75          43           25.0
+## 76          5    195       108    72          41           28.5
+## 78          5    184        99    67          37           26.5
+## 79          5    176       102    68          40           26.5
+## 80          4    146        90    60          32           23.5
+## 81          5    175        97    65          35           27.5
+## 83          4    161        93    63          34           27.5
+## 84          5    162        94    65          36           24.0
+## 86          5    188       103    70          38           28.5
+## 87          7    187       113    71          41           35.0
+## 88          4    163        93    63          34           26.0
+## 90          5    180       103    67          35           31.5
+## 92          5    190       104    67          37           29.5
+## 93          5    184       105    69          38           30.0
+##    Luggage.room Weight  Origin                    Make
+## 2            15   3560 non-USA            Acura Legend
+## 3            14   3375 non-USA                 Audi 90
+## 5            13   3640 non-USA                BMW 535i
+## 6            16   2880     USA           Buick Century
+## 7            17   3470     USA           Buick LeSabre
+## 8            21   4105     USA        Buick Roadmaster
+## 10           18   3620     USA        Cadillac DeVille
+## 11           14   3935     USA        Cadillac Seville
+## 12           13   2490     USA      Chevrolet Cavalier
+## 13           14   2785     USA       Chevrolet Corsica
+## 14           13   3240     USA        Chevrolet Camaro
+## 16           NA   3715     USA    Chevrolet Lumina_APV
+## 17           NA   4025     USA         Chevrolet Astro
+## 20           15   3515     USA       Chrylser Concorde
+## 21           14   3085     USA        Chrysler LeBaron
+## 24           13   2670     USA            Dodge Shadow
+## 25           14   2970     USA            Dodge Spirit
+## 29           11   2295     USA            Eagle Summit
+## 30           15   3490     USA            Eagle Vision
+## 34           12   2850     USA            Ford Mustang
+## 40           11   2475 non-USA               Geo Storm
+## 42           12   2350 non-USA             Honda Civic
+## 45           12   2620 non-USA         Hyundai Elantra
+## 46            9   2285 non-USA          Hyundai Scoupe
+## 47           14   2885 non-USA          Hyundai Sonata
+## 48           15   4000 non-USA            Infiniti Q45
+## 49           14   3510 non-USA             Lexus ES300
+## 52           22   4055     USA        Lincoln Town_Car
+## 53           16   2325 non-USA               Mazda 323
+## 54           13   2440 non-USA           Mazda Protege
+## 56           NA   3735 non-USA               Mazda MPV
+## 57           NA   2895 non-USA              Mazda RX-7
+## 58           12   2920 non-USA      Mercedes-Benz 190E
+## 59           15   3525 non-USA      Mercedes-Benz 300E
+## 61           15   3610     USA          Mercury Cougar
+## 65           14   3050 non-USA           Nissan Altima
+## 67           14   3200 non-USA           Nissan Maxima
+## 71           17   3470     USA Oldsmobile Eighty-Eight
+## 73           17   2350     USA          Pontiac LeMans
+## 75           13   3240     USA        Pontiac Firebird
+## 76           16   3450     USA      Pontiac Grand_Prix
+## 78           14   2775 non-USA                Saab 900
+## 79           12   2495     USA               Saturn SL
+## 80           10   2045 non-USA            Subaru Justy
+## 81           15   2490 non-USA           Subaru Loyale
+## 83           10   1965 non-USA            Suzuki Swift
+## 84           11   2055 non-USA           Toyota Tercel
+## 86           15   3030 non-USA            Toyota Camry
+## 87           NA   3785 non-USA           Toyota Previa
+## 88           10   2240 non-USA          Volkswagen Fox
+## 90           14   2985 non-USA       Volkswagen Passat
+## 92           14   2985 non-USA               Volvo 240
+## 93           15   3245 non-USA               Volvo 850</code></pre>
 <div id="question-1a" class="section level3">
 <h3>Question 1A</h3>
 <p>Save both datasets as csv files. Find out the number of USA and non-USA cars in the training dataset.</p>
 <pre class="r"><code>write.csv(training, file=&quot;training.csv&quot;)
 write.csv(test, file=&quot;test.csv&quot;)</code></pre>
-<pre class="r"><code>## Ask how to find the number of USA and non-USA cars in the training dataset. Is it similar to what we did in the first lab?</code></pre>
+<pre class="r"><code>sum(training$Origin==&quot;non-USA&quot;)</code></pre>
+<pre><code>## [1] 16</code></pre>
+<pre class="r"><code>sum(training$Origin==&quot;USA&quot;)</code></pre>
+<pre><code>## [1] 24</code></pre>
 </div>
 </div>
 <div id="question-2" class="section level2">
@@ -151,7 +626,7 @@ write.csv(test, file=&quot;test.csv&quot;)</code></pre>
 <p>Assume that the probabilities of boy and girl births are 0.515 and 0.485, respectively. Use the sample() function to simulate 10 births and print out the result. How many boys and girls do you get out of 10 births? Then simulate 10,000 births. How many boys and girls do you get out of 10,000 births?</p>
 <pre class="r"><code>births &lt;- sample(c(&quot;boy&quot;, &quot;girl&quot;), size = 10, replace = TRUE, prob=c(.515, .485))
 births</code></pre>
-<pre><code>##  [1] &quot;boy&quot;  &quot;boy&quot;  &quot;boy&quot;  &quot;girl&quot; &quot;boy&quot;  &quot;boy&quot;  &quot;girl&quot; &quot;girl&quot; &quot;girl&quot; &quot;girl&quot;</code></pre>
+<pre><code>##  [1] &quot;boy&quot;  &quot;boy&quot;  &quot;boy&quot;  &quot;girl&quot; &quot;girl&quot; &quot;girl&quot; &quot;girl&quot; &quot;boy&quot;  &quot;girl&quot; &quot;boy&quot;</code></pre>
 <pre class="r"><code>table(births)</code></pre>
 <pre><code>## births
 ##  boy girl 
@@ -161,7 +636,7 @@ births</code></pre>
 table(manybirths)</code></pre>
 <pre><code>## manybirths
 ##  boy girl 
-## 5129 4871</code></pre>
+## 5085 4915</code></pre>
 <p>In this sample, we can see how the probability affects the outcome of the number of boys versus girls–there were about 300 more boys than girls.</p>
 </div>
 <div id="question-3" class="section level2">
@@ -181,16 +656,15 @@ table(manybirths)</code></pre>
 <div id="question-4" class="section level2">
 <h2>Question 4</h2>
 <p>If cars arrive randomly at a traffic light at the rate of five every ten seconds. What the probability that exactly four cars arrive in the next ten seconds? What’s the probability that more than five cars arrive in the next ten seconds? Plot the density function of 0-20 cars arriving in the next ten seconds.</p>
-<pre class="r"><code>dbinom(4, size=1:20, prob=.5)</code></pre>
-<pre><code>##  [1] 0.000000000 0.000000000 0.000000000 0.062500000 0.156250000
-##  [6] 0.234375000 0.273437500 0.273437500 0.246093750 0.205078125
-## [11] 0.161132812 0.120849609 0.087280273 0.061096191 0.041656494
-## [16] 0.027770996 0.018157959 0.011672974 0.007392883 0.004620552</code></pre>
-<pre class="r"><code>pbinom(5, size=1:20, prob=.5)</code></pre>
-<pre><code>##  [1] 1.00000000 1.00000000 1.00000000 1.00000000 1.00000000 0.98437500
-##  [7] 0.93750000 0.85546875 0.74609375 0.62304687 0.50000000 0.38720703
-## [13] 0.29052734 0.21197510 0.15087891 0.10505676 0.07173157 0.04812622
-## [19] 0.03178406 0.02069473</code></pre>
+<pre class="r"><code>dbinom(4, size=10, prob=.5)</code></pre>
+<pre><code>## [1] 0.2050781</code></pre>
+<pre class="r"><code>pbinom(5, size=10, prob=.5)</code></pre>
+<pre><code>## [1] 0.6230469</code></pre>
+<pre class="r"><code>dbinom(1:20, size=10, prob=.5)</code></pre>
+<pre><code>##  [1] 0.0097656250 0.0439453125 0.1171875000 0.2050781250 0.2460937500
+##  [6] 0.2050781250 0.1171875000 0.0439453125 0.0097656250 0.0009765625
+## [11] 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+## [16] 0.0000000000 0.0000000000 0.0000000000 0.0000000000 0.0000000000</code></pre>
 </div>
 
 

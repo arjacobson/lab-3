@@ -44,59 +44,88 @@ sum(training$Origin=="USA")
 
 ## Question 2
 
-Assume that the probabilities of boy and girl births are 0.515 and 0.485, respectively. Use the sample() function to simulate 10 births and print out the result. How many boys and girls do you get out of 10 births? Then simulate 10,000 births. How many boys and girls do you get out of 10,000 births?
+Assume that the probabilities of boy and girl births are 0.515 and 0.485, respectively. Use the sample() function to simulate 10 births and print out the result. How many boys and girls do you get out of 10 births? 
 
 ```{r}
-births <- sample(c("boy", "girl"), size = 10, replace = TRUE, prob=c(.515, .485))
+births <- sample(c("boy", "girl"), size = 10, replace=TRUE, prob=c(.515, .485))
 births
 table(births)
 ```
 
-For this sample, the amount of boy and girl births were split equally. Let's see what happens when we sample significantly more births. 
+
+### Question 2A 
+
+Let's see what happens when we simulate 10,000 births. How many boys and girls do you get out of 10,000 births?
 
 
 ```{r}
-manybirths <- sample(c("boy", "girl"), size = 10000, replace = TRUE, prob=c(.515, .485))
+manybirths <- sample(c("boy", "girl"), size = 10000, replace=TRUE, prob=c(.515, .485))
 table(manybirths)
 ```
 
-In this sample, we can see how the probability affects the outcome of the number of boys versus girls--there were about 300 more boys than girls. 
+In this sample, we can see how the probability affects the outcome of the number of boys versus girls--there were about 300 more boys than girls. The probability difference is more obvious in the larger sample. 
 
 
 
 ## Question 3 
 
-Assume that the probabilities of boy and girl births are 0.515 and 0.485, respectively. What’s
-the probability of having exactly 3 boys out of 10 births? What’s the probability of having 8 or more boys out of 10 births? Plot both the density function and cumulative probability function of the number of boy births out of 10.
+Assume that the probabilities of boy and girl births are 0.515 and 0.485, respectively. What’s the probability of having exactly 3 boys out of 10 births? What’s the probability of having 8 or more boys out of 10 births? 
 
-**Density function**
 ```{r}
 dbinom(3, size=10, prob=.515)
 
-dbinom(8, size=10, prob=.515)
+pbinom(8, size=10, prob=.515)
 ```
 
-**Cumulative probability function**
-```{r}
-pbinom(3, size=10, prob=.515)
+### Question 3A 
 
-pbinom(8, size=10, prob=.515)
+Plot both the density function and cumulative probability function of the number of boy births out of 10.
+
+**Density function** 
+```{r}
+n <- 10 
+x <- 0:n
+y <- dbinom(x, size=10, prob=.515)
+plot(x,y)
+```
+
+**Cumulative probability function** 
+
+```{r}
+n <- 10
+x <- 0:n
+y <- pbinom(x, size=10, prob=.515)
+plot(x,y)
 ```
 
 
 ## Question 4
 
-If cars arrive randomly at a traffic light at the rate of five every ten seconds. What the probability that exactly four cars arrive in the next ten seconds? What’s the probability that more than five cars arrive in the next ten seconds? Plot the density function of 0-20 cars arriving in the next ten seconds.
+If cars arrive randomly at a traffic light at the rate of five every ten seconds:
+
+What the probability that exactly four cars arrive in the next ten seconds?  
 
 ```{r}
 dbinom(4, size=10, prob=.5)
 ```
 
+### Question 4A 
+
+
+What’s the probability that more than five cars arrive in the next ten seconds?
+
 ```{r}
 pbinom(5, size=10, prob=.5)
 ```
 
+### Question 4B 
+
+Plot the density function of 0-20 cars arriving in the next ten seconds.
+
 ```{r}
-dbinom(1:20, size=10, prob=.5)
+n <- 20 
+x <- 0:n 
+y <- dbinom(x, size=10, prob=.5)
+plot(x,y)
 ```
 

@@ -74,7 +74,7 @@ Assume that the probabilities of boy and girl births are 0.515 and 0.485, respec
 ```{r}
 dbinom(3, size=10, prob=.515)
 
-pbinom(8, size=10, prob=.515)
+pbinom(8, size=10, prob=.515, lower.tail = FALSE)
 ```
 
 ### Question 3A 
@@ -94,7 +94,7 @@ plot(x,y)
 ```{r}
 n <- 10
 x <- 0:n
-y <- pbinom(x, size=10, prob=.515)
+y <- pbinom(x, size=10, prob=.515, lower.tail = FALSE)
 plot(x,y)
 ```
 
